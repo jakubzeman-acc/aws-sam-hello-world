@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: UCC CCP application backend
+
+Globals:
+  Api:
+    BinaryMediaTypes:
+      - '*~1*'
+
+Resources:
+  SET YOUR APP NAME: # TODO
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.app
+      Runtime: python3.6
+      Timeout: 60
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource:
+                - 'arn:aws:s3:::My-Bucket-Name/*' # TODO
+      CodeUri: s3://My-Bucket-Name/my-app.zip
+      Events:
+        HttpRoot:
+          Type: Api
+          Properties:
+            Path: '/'
+            Method: ANY
+        HttpAll:
+          Type: Api
+          Properties:
+            Path: '/{proxy+}'
+            Method: ANY
+  YOUR S3 bucket: # TODO
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: My-Bucket-Name # TODO
+      AccessControl: AuthenticatedRead

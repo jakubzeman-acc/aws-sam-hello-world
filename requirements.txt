@@ -1,0 +1,4 @@
+requests
+Flask
+boto3
+git+https://github.com/konciergeMD/flask-lambda.git
