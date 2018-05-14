@@ -14,6 +14,18 @@ def write_to_bucket(s3, counter: int):
     s3.put_object(Body=bytes(str(counter), 'utf-8'), Bucket=MY_S3_BUCKET, Key=MY_FILE)
 
 
+def read_from_bucket(s3) -> int:
+    ret = 0
+    counter_i = BytesIO()
+    s3.download_fileobj(MY_S3_BUCKET, MY_FILE, counter_i)
+    read_value = counter_i.getvalue().decode('utf-8')
+    logging.info('File ' + MY_FILE + ' content: "' + read_value + '"')
+    if read_value.isdecimal():
+        ret = int(read_value)
+    counter_i.close()
+    return ret
+
+
 @app.route('/')
 def hello():
     global MY_S3_BUCKET, MY_FILE
@@ -22,14 +34,7 @@ def hello():
     call_counter = 0
     try:
         # Read counter
-        counter_i = BytesIO()
-        s3.download_fileobj(MY_S3_BUCKET, MY_FILE, counter_i)
-        read_value = counter_i.getvalue().decode('utf-8')
-        logging.info('File ' + MY_FILE + ' content: "' + read_value + '"')
-        if read_value.isdecimal():
-            call_counter = int(read_value)
-        counter_i.close()
-
+        call_counter = read_from_bucket(s3)
         call_counter += 1
 
         # Write counter
@@ -42,13 +47,13 @@ def hello():
                 call_counter += 1
                 write_to_bucket(s3, call_counter)
             except Exception as e:
-                logging.error('Cannot write to ' + MY_S3_BUCKET + '/' + MY_FILE + ": " + str(e))
+                logging.error('Cannot write to ' + MY_S3_BUCKET + '/' + MY_FILE + ': ' + str(e))
         else:
-            logging.error('Cannot read from ' + MY_S3_BUCKET + '/' + MY_FILE + ": " + str(e))
+            logging.error('Cannot read from ' + MY_S3_BUCKET + '/' + MY_FILE + ': ' + str(e))
     except Exception as e:
-        logging.error('Cannot read/write from/to ' + MY_S3_BUCKET + '/' + MY_FILE + ": " + str(e))
+        logging.error('Cannot read/write from/to ' + MY_S3_BUCKET + '/' + MY_FILE + ': ' + str(e))
 
-    return "Hello World! Access count = " + str(call_counter)
+    return 'Hello World! Access count = ' + str(call_counter)
 
 
 if __name__ == '__main__':
