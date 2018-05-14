@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: AWS SAM example with Flask
+Description: UCC CCP application backend
 
 Globals:
   Api:
@@ -8,7 +8,7 @@ Globals:
       - '*~1*'
 
 Resources:
-  SetYourAppName: # TODO
+  JakubSamHelloWorld: # TODO
     Type: AWS::Serverless::Function
     Properties:
       Handler: app.app
@@ -21,8 +21,8 @@ Resources:
               Action:
                 - s3:*
               Resource:
-                - 'arn:aws:s3:::Set-Your-Bucket-Name/*' # TODO
-      CodeUri: s3://jakub-aws-sam-lambdas/lambda.zip # TODO
+                - 'arn:aws:s3:::jakub-sam-hello-world-bucket/*' # TODO
+      CodeUri: s3://jakub-aws-sam-lambdas/jakub-sam-hello-world.zip # TODO
       Events:
         HttpRoot:
           Type: Api
@@ -34,8 +34,8 @@ Resources:
           Properties:
             Path: '/{proxy+}'
             Method: ANY
-  SetYourS3Bucket: # TODO
+  JakubSamHelloWorldBucket: # TODO
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: Set-Your-Bucket-Name # TODO
+      BucketName: jakub-sam-hello-world-bucket # TODO
       AccessControl: AuthenticatedRead

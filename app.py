@@ -1,4 +1,4 @@
-from flask_lambda import FlaskLambda
+from flask_lambda import FlaskLambda, logging
 
 
 app = FlaskLambda(__name__)
@@ -6,6 +6,7 @@ app = FlaskLambda(__name__)
 
 @app.route("/")
 def hello():
+    logging.info("Root endpoint called.")
     return "Hello World!"
 
 
