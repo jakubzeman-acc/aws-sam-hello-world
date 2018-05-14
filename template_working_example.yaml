@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion : '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: UCC CCP application backend
+Description: AWS SAM example with Flask
 
 Globals:
   Api:
@@ -38,4 +38,3 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: jakub-sam-hello-world-bucket # TODO
-      AccessControl: AuthenticatedRead

@@ -38,4 +38,3 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: Set-Your-Bucket-Name # TODO
-      AccessControl: AuthenticatedRead
