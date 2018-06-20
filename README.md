@@ -20,5 +20,15 @@ Don't forget to change the name of zip file or use your own bucket (otherwise yo
 - Replace all **TODO**  lines in ```template.yaml```
 - Execute:
 ```bash
-sam deploy --template-file template.yaml --stack-name <your stack name> --region us-east-1 --profile sandbox --capabilities CAPABILITY_IAM --force-upload
+sam deploy --template-file template.yaml --stack-name <your stack name> --region <region> --profile <your profile name> --capabilities CAPABILITY_IAM --force-upload
 ```
+
+## example
+```bash
+sam deploy --template-file template-demo.yaml --stack-name pyvo-demo-test --region eu-central-1 --profile sam --capabilities CAPABILITY_IAM --force-upload
+```
+
+# AWS doc links
+- https://github.com/awslabs/serverless-application-model/blob/develop/versions/2016-10-31.md
+- https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html
+- https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html

@@ -14,6 +14,9 @@ Resources:
       Handler: app.app
       Runtime: python3.6
       Timeout: 60
+      Environment:
+        Variables:
+          S3_BUCKET_NAME: !Sub "${DemoBucket}"
       Policies:
         - Version: '2012-10-17'
           Statement:
@@ -21,8 +24,8 @@ Resources:
               Action:
                 - s3:*
               Resource:
-                - 'arn:aws:s3:::Set-Your-Bucket-Name/*' # TODO
-      CodeUri: s3://jakub-aws-sam-lambdas/lambda.zip # TODO
+                - !Sub "${DemoBucket.Arn}/*"
+      CodeUri: s3://jakub-aws-sam-lambdas/lambda.zip # TODO - You have to create a bucket for storing lambda source code
       Events:
         HttpRoot:
           Type: Api
@@ -34,7 +37,5 @@ Resources:
           Properties:
             Path: '/{proxy+}'
             Method: ANY
-  SetYourS3Bucket: # TODO
+  DemoBucket:
     Type: AWS::S3::Bucket
-    Properties:
-      BucketName: Set-Your-Bucket-Name # TODO
